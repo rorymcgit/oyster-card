@@ -18,8 +18,8 @@ describe Oystercard do
       expect(subject.balance).to eq 30
     end
 
-    it "will not topup when the balance would be over £90" do
-      expect{subject.topup(91)}.to raise_error "Your balance cannot go over £90."
+    it "will not topup when the balance would be over £#{Oystercard::MAX_MONEY}" do
+      expect{subject.topup(91)}.to raise_error "Your balance cannot go over £#{Oystercard::MAX_MONEY}."
     end
 
   end
