@@ -1,0 +1,17 @@
+Objects,Messages
+,
+Card,have money
+Customer,can see their trips
+Public Transport,
+Card,have money added
+Card,have a limit to money added
+Card,fare deducted
+Journey,Complete
+Barriers,Touch in/out 
+Card,Touch in
+Card,Touch out
+Card,Minimum_amount
+Journey,knows the beginning of the journey
+Customer,can see the zone of ze station
+Station,have a zone
+Card,Penalty deducted 
