@@ -31,16 +31,16 @@ end
 
   end
 
-  context "#deduct" do
-    it "responds to deduct with 1 argument" do
-      expect(subject).to respond_to(:deduct).with(1).argument
-    end
-
-    it "deducts fare from balance" do
-      expect{subject.deduct(10)}.to change{ subject.balance }.by -10
-    end
-
-  end
+  # context "#deduct" do
+  #   it "responds to deduct with 1 argument" do
+  #     expect(subject).to respond_to(:deduct).with(1).argument
+  #   end
+  #
+  #   it "deducts fare from balance" do
+  #     expect{subject.deduct(10)}.to change{ subject.balance }.by -10
+  #   end
+  #
+  # end
 
   context "#touch_in" do
     before(:each) do
@@ -76,11 +76,15 @@ context "#touch_out" do
     expect(subject).to respond_to(:touch_out)
   end
 
-  it "registers as journey complete after touchout" do
+  it "registers as journey complete after touch_out" do
     subject.touch_in
     subject.touch_out
     expect(subject).not_to be_on_journey
   end
-end
 
+  it " deducts minimum fare when touch_out" do
+  subject.touch_in
+  expect{ subject.touch_out}.to change{ subject.balance}.by -(Oystercard::MINIMUM_FARE)
+  end
+end
 end
