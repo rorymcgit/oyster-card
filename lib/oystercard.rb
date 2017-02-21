@@ -1,14 +1,13 @@
 
 class Oystercard
-  attr_reader :balance, :touched_in, :in_journey
+  attr_reader :balance, :on_journey
 
   MAX_MONEY = 90
   MIN_MONEY = 1
 
   def initialize
     @balance = 0
-    @touched_in = false
-    @in_journey = false
+    @on_journey = false
   end
 
   def topup(value)
@@ -22,19 +21,15 @@ class Oystercard
 
   def touch_in
     fail "min. balance of £#{Oystercard::MIN_MONEY} not reached" if @balance <= MIN_MONEY
-    @touched_in = true
+    @on_journey = true
   end
 
   def touch_out
-    @touched_in = false
+    @on_journey = false
   end
 
-  def in_journey?
-    if @touched_in == true
-      @in_journey = true
-    else
-      @in_journey = false
-    end
+  def on_journey?
+    @on_journey
   end
 
 end

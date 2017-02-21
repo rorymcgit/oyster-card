@@ -48,7 +48,7 @@ end
     end
 
     it "is initially not in a journey" do
-      expect(subject).not_to be_in_journey
+      expect(subject).not_to be_on_journey
     end
 
     it "responds to touch_in method" do
@@ -57,7 +57,7 @@ end
 
     it "registers as being in a journey after touchin" do
       subject.touch_in
-      expect(subject).to be_in_journey
+      expect(subject).to be_on_journey
     end
   end
 
@@ -79,7 +79,7 @@ context "#touch_out" do
   it "registers as journey complete after touchout" do
     subject.touch_in
     subject.touch_out
-    expect(subject).not_to be_in_journey
+    expect(subject).not_to be_on_journey
   end
 end
 
