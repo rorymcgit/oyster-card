@@ -6,7 +6,6 @@ class Oystercard
   MIN_MONEY = 1
   MINIMUM_FARE = 1
 
-
   def initialize
     @balance = 0
     @all_journeys= []
@@ -32,7 +31,7 @@ class Oystercard
   end
 
   def on_journey?
-  !!@entry_station
+    !!@entry_station
   end
 
   private
