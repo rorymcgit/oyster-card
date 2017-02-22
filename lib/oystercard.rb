@@ -19,7 +19,7 @@ class Oystercard
   end
 
   def touch_in(station)
-    fail "min. balance of £#{Oystercard::MIN_MONEY} not reached" if @balance <= MIN_MONEY
+    fail "min. balance of £#{Oystercard::MIN_MONEY} not reached" if @balance < MIN_MONEY
     @current_journey.store_entry(station)
   end
 
@@ -27,10 +27,6 @@ class Oystercard
     deduct(MINIMUM_FARE)
     @current_journey.store_exit(station)
     @current_journey = Journey.new
-  end
-
-  def on_journey?
-    @current_journey.on_journey?
   end
 
   def penalty_charge

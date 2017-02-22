@@ -1,17 +1,15 @@
 require 'station'
 
 describe Station, :stn do
+  let(:station) { described_class.new(name: "Euston", zone: 1) }
 
   context "#station initialize" do
-    subject { described_class.new(name: "Euston", zone: 1) }
-
     it "stores the name of the station on initialize" do
-      expect(subject.name).to eq("Euston")
+      expect(station.name).to eq("Euston")
     end
 
     it "stores the zone on initialize" do
-      expect(subject.zone).to eq(1)
+      expect(station.zone).to eq(1)
     end
   end
-
 end
