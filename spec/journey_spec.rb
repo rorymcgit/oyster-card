@@ -13,13 +13,13 @@ describe Journey, :j do
 
   it "stores the entry station" do
     journey.store_entry(entry_station)
-    expect(journey.each_journey[:in]).to eq(entry_station)
+    expect(journey.single_journey[:in]).to eq(entry_station)
   end
 
   it "stores the exit station" do
    journey.store_entry(entry_station)
    journey.store_exit(exit_station)
-   expect(journey.each_journey[:out]).to eq(exit_station)
+   expect(journey.single_journey[:out]).to eq(exit_station)
   end
 
   it "has an empty journey list by default" do
@@ -35,11 +35,11 @@ describe Journey, :j do
     end
 
     it "it tests two stations stored in the hash" do
-      expect(journey.each_journey.length).to eq(2)
+      expect(journey.single_journey.length).to eq(2)
     end
 
     it "registers a journey after touch_in and touch_out" do
-      expect(journey.all_journeys[0]).to eq(journey.each_journey)
+      expect(journey.all_journeys[0]).to eq(journey.single_journey)
     end
 
     it "has just one journey after touch in and out" do

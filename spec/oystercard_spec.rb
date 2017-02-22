@@ -17,7 +17,7 @@ describe Oystercard do
     end
 
     it "will not topup when the balance would be over £#{described_class::MAX_MONEY}" do
-      message = "Your balance cannot go over £#{described_class::MAX_MONEY}."
+      message = "Topup would put value over the maximum: £#{described_class::MAX_MONEY}."
       expect{card.topup(described_class::MAX_MONEY + 1)}.to raise_error(message)
     end
   end
@@ -55,15 +55,7 @@ describe Oystercard do
       expect(described_class::PENALTY_CHARGE).to eq(6)
     end
 
-    it "returns true from penalty charge" do
-      expect(card.penalty_charge).to eq(true)
-     end
-
-    it "deducts penalty fare from balance" do
-      expect{card.penalty_charge}.to change{card.balance}.by(-described_class::PENALTY_CHARGE)
-    end
-
-    context "charges penalty fare on conditions" do
+    context "charges penalty fare on following conditions:" do
       before(:each) do
         card.topup(50)
       end
