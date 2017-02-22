@@ -1,7 +1,8 @@
 require "oystercard"
 
 describe Oystercard do
-  let (:station){ double }
+  let (:entrance){ double }
+  let (:finish){ double }
 
   context "#balance" do
   it "carries a balance" do
@@ -45,14 +46,12 @@ end
     end
 
     it 'stores the entry station' do
-      subject.touch_in(station)
-      expect(subject.entry_station).to eq station
+      subject.touch_in(entrance)
+      expect(subject.entry_station).to eq entrance
     end
 
-
-
     it "registers as being in a journey after touchin" do
-      subject.touch_in(station)
+      subject.touch_in(entrance)
       expect(subject).to be_on_journey
     end
   end
@@ -60,7 +59,7 @@ end
 context "#touch_in_errors" do
 
     it "raises an error when minimum amount not reached" do
-    expect{ subject.touch_in(station) }.to raise_error "min. balance of £#{Oystercard::MIN_MONEY} not reached"
+    expect{ subject.touch_in(entrance) }.to raise_error "min. balance of £#{Oystercard::MIN_MONEY} not reached"
     end
   end
 
@@ -74,20 +73,51 @@ context "#touch_out" do
   end
 
   it "saves the exit station on touch_out" do
-    subject.touch_in(station)
+    subject.touch_in(entrance)
     subject.touch_out("bank")
     expect(subject.exit_station).to eq "bank"
   end
 
   it "registers as journey complete after touch_out" do
-    subject.touch_in(station)
-    subject.touch_out(station)
+    subject.touch_in(entrance)
+    subject.touch_out(finish)
     expect(subject).not_to be_on_journey
   end
 
   it " deducts minimum fare when touch_out" do
-  subject.touch_in(station)
-  expect{ subject.touch_out(station)}.to change{ subject.balance}.by -(Oystercard::MINIMUM_FARE)
+  subject.touch_in(entrance)
+  expect{ subject.touch_out(finish)}.to change{ subject.balance}.by -(Oystercard::MINIMUM_FARE)
   end
 end
+
+  context "#journey" do
+    before(:each) do
+      subject.topup(50)
+    end
+    it "it tests two stations stored in the hash" do
+      subject.touch_in(entrance)
+      subject.touch_out(finish)
+      expect(subject.journey.length).to eq(2)
+    end
+
+    it "has an empty journey list by default" do
+      expect(subject.all_journeys).to be_empty
+    end
+
+    it "registers a journey after touch_in and touch_out" do
+      subject.touch_in(entrance)
+      subject.touch_out(finish)
+      expect(subject.all_journeys[0]).to eq(subject.journey)
+    end
+
+    it "has just one journey after touch in and out" do
+      subject.touch_in(entrance)
+      subject.touch_out(finish)
+      expect(subject.all_journeys.length).to eq(1)
+    end
+
+
+  end
+
+
 end
