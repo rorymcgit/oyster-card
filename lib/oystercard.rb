@@ -4,7 +4,7 @@ class Oystercard
 
   MAX_MONEY = 90
   MIN_MONEY = 1
-  MINIMUM_FARE = 1
+  MINIMUM_FARE = 3
   PENALTY_CHARGE = 6
 
   def initialize
@@ -14,19 +14,19 @@ class Oystercard
   end
 
   def topup(value)
-    fail "Your balance cannot go over £#{Oystercard::MAX_MONEY}." if @balance + value > MAX_MONEY
+    fail "Your balance cannot go over £#{Oystercard::MAX_MONEY}." if balance + value > MAX_MONEY
     @balance += value
   end
 
   def touch_in(station)
-    fail "min. balance of £#{Oystercard::MIN_MONEY} not reached" if @balance < MIN_MONEY
+    fail "min. balance of £#{Oystercard::MIN_MONEY} not reached" if balance < MIN_MONEY
     @current_journey.store_entry(station)
   end
 
   def touch_out(station)
     deduct(MINIMUM_FARE)
     @current_journey.store_exit(station)
-    @current_journey = Journey.new
+    @current_journey = nil
   end
 
   def penalty_charge
