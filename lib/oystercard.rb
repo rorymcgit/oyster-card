@@ -7,6 +7,7 @@ class Oystercard
   MINIMUM_FARE = 1
 
   def initialize
+    @current_journey = Journey.new
     @balance = 0
     @all_journeys= []
   end
@@ -18,20 +19,17 @@ class Oystercard
 
   def touch_in(station)
     fail "min. balance of £#{Oystercard::MIN_MONEY} not reached" if @balance <= MIN_MONEY
-    @journey = { :in => station }
-    @entry_station= station
+    @current_journey.store_entry(station)
   end
 
   def touch_out(station)
     deduct(MINIMUM_FARE)
-    @entry_station = nil
-    @exit_station = station
-    @journey[:out] = station
-    @all_journeys << journey
+    @current_journey.store_exit(station)
+    @current_journey = Journey.new
   end
 
   def on_journey?
-    !!@entry_station
+    @current_journey.on_journey?
   end
 
   private

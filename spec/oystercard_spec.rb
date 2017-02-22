@@ -45,11 +45,6 @@ end
       expect(subject).to respond_to(:touch_in)
     end
 
-    it 'stores the entry station' do
-      subject.touch_in(entrance)
-      expect(subject.entry_station).to eq entrance
-    end
-
     it "registers as being in a journey after touchin" do
       subject.touch_in(entrance)
       expect(subject).to be_on_journey
@@ -72,12 +67,6 @@ context "#touch_out" do
     expect(subject).to respond_to(:touch_out).with(1).argument
   end
 
-  it "saves the exit station on touch_out" do
-    subject.touch_in(entrance)
-    subject.touch_out("bank")
-    expect(subject.exit_station).to eq "bank"
-  end
-
   it "registers as journey complete after touch_out" do
     subject.touch_in(entrance)
     subject.touch_out(finish)
@@ -90,34 +79,9 @@ context "#touch_out" do
   end
 end
 
-  context "#journey" do
-    before(:each) do
-      subject.topup(50)
-    end
-    it "it tests two stations stored in the hash" do
-      subject.touch_in(entrance)
-      subject.touch_out(finish)
-      expect(subject.journey.length).to eq(2)
-    end
-
-    it "has an empty journey list by default" do
-      expect(subject.all_journeys).to be_empty
-    end
-
-    it "registers a journey after touch_in and touch_out" do
-      subject.touch_in(entrance)
-      subject.touch_out(finish)
-      expect(subject.all_journeys[0]).to eq(subject.journey)
-    end
-
-    it "has just one journey after touch in and out" do
-      subject.touch_in(entrance)
-      subject.touch_out(finish)
-      expect(subject.all_journeys.length).to eq(1)
-    end
 
 
-  end
+
 
 
 end
