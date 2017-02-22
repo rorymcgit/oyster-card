@@ -4,6 +4,7 @@ describe Oystercard do
   let(:card) { described_class.new }
   let(:entry_station) { double }
   let(:exit_station) { double }
+  let(:topup_amount) { 20 }
 
   describe "#balance" do
     it "begins with a default balance of 0" do
@@ -13,7 +14,7 @@ describe Oystercard do
 
   describe "#topup" do
     it "topup changes the balance" do
-      expect{card.topup(20)}.to change{card.balance}.by(20)
+      expect{card.topup(topup_amount)}.to change{card.balance}.by(topup_amount)
     end
 
     it "will not topup when the balance would be over £#{described_class::MAX_MONEY}" do
@@ -24,7 +25,7 @@ describe Oystercard do
 
   describe "#touch_in" do
     before(:each) do
-      card.topup(50)
+      card.topup(topup_amount)
     end
 
     it "responds to touch_in method" do
@@ -41,7 +42,7 @@ describe Oystercard do
 
   describe "#touch_out" do
     before(:each) do
-      card.topup(50)
+      card.topup(topup_amount)
     end
 
     it "deducts minimum fare on touch_out" do
@@ -57,7 +58,7 @@ describe Oystercard do
 
     context "charges penalty fare on following conditions:" do
       before(:each) do
-        card.topup(50)
+        card.topup(topup_amount)
       end
       it "touch out but no touch in" do
         # NOT TOUCHING IN

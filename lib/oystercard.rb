@@ -2,7 +2,7 @@ require_relative "journey"
 
 class Oystercard
 
-  attr_reader :balance
+  attr_reader :balance, :current_journey
 
   MAX_MONEY = 90
   MIN_MONEY = 1
@@ -16,25 +16,41 @@ class Oystercard
   end
 
   def topup(value)
-    fail "Topup would put value over the maximum: £#{MAX_MONEY}." if balance + value > MAX_MONEY
+    check_if_topup_exceeds_maximum(value)
     @balance += value
   end
 
   def touch_in(station)
-    fail "min. balance of £#{MIN_MONEY} not reached" if balance < MIN_MONEY
-    penalty_charge if @in
+    check_if_balance_meets_minimum
+    touch_in_charge
     @in = true
     @current_journey.store_entry(station)
   end
 
   def touch_out(station)
-    @in ? minimum_fare : penalty_charge
+    touch_out_charge
     @in = false
     @current_journey.store_exit(station)
-    @current_journey = nil
+    @current_journey = Journey.new
   end
 
   private
+  def check_if_balance_meets_minimum
+    raise "min. balance of £#{MIN_MONEY} not reached" if balance < MIN_MONEY
+  end
+
+  def check_if_topup_exceeds_maximum(value)
+    raise "Topup would put value over the maximum: £#{MAX_MONEY}." if balance + value > MAX_MONEY
+  end
+
+  def touch_in_charge
+    penalty_charge if @in
+  end
+
+  def touch_out_charge
+    @in ? minimum_fare : penalty_charge
+  end
+
   def penalty_charge
     @balance -= PENALTY_CHARGE
   end
