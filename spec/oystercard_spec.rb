@@ -1,6 +1,7 @@
 require "oystercard"
 
 describe Oystercard do
+  let (:station){ double }
 
   context "#balance" do
   it "carries a balance" do
@@ -31,6 +32,7 @@ end
 
   end
 
+
   # context "#deduct" do
   #   it "responds to deduct with 1 argument" do
   #     expect(subject).to respond_to(:deduct).with(1).argument
@@ -55,15 +57,23 @@ end
       expect(subject).to respond_to(:touch_in)
     end
 
+    it 'stores the entry station' do
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
+    end
+
+
+
     it "registers as being in a journey after touchin" do
-      subject.touch_in
+      subject.touch_in(station)
       expect(subject).to be_on_journey
     end
   end
 
 context "#touch_in_errors" do
+
     it "raises an error when minimum amount not reached" do
-      expect{ subject.touch_in }.to raise_error "min. balance of £#{Oystercard::MIN_MONEY} not reached"
+    expect{ subject.touch_in(station) }.to raise_error "min. balance of £#{Oystercard::MIN_MONEY} not reached"
     end
   end
 
@@ -77,13 +87,13 @@ context "#touch_out" do
   end
 
   it "registers as journey complete after touch_out" do
-    subject.touch_in
+    subject.touch_in(station)
     subject.touch_out
     expect(subject).not_to be_on_journey
   end
 
   it " deducts minimum fare when touch_out" do
-  subject.touch_in
+  subject.touch_in(station)
   expect{ subject.touch_out}.to change{ subject.balance}.by -(Oystercard::MINIMUM_FARE)
   end
 end
