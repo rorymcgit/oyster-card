@@ -70,18 +70,24 @@ context "#touch_out" do
   end
 
   it "responds to touch_out method" do
-    expect(subject).to respond_to(:touch_out)
+    expect(subject).to respond_to(:touch_out).with(1).argument
+  end
+
+  it "saves the exit station on touch_out" do
+    subject.touch_in(station)
+    subject.touch_out("bank")
+    expect(subject.exit_station).to eq "bank"
   end
 
   it "registers as journey complete after touch_out" do
     subject.touch_in(station)
-    subject.touch_out
+    subject.touch_out(station)
     expect(subject).not_to be_on_journey
   end
 
   it " deducts minimum fare when touch_out" do
   subject.touch_in(station)
-  expect{ subject.touch_out}.to change{ subject.balance}.by -(Oystercard::MINIMUM_FARE)
+  expect{ subject.touch_out(station)}.to change{ subject.balance}.by -(Oystercard::MINIMUM_FARE)
   end
 end
 end
