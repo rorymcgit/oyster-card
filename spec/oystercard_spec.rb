@@ -79,9 +79,18 @@ context "#touch_out" do
   end
 end
 
+context "#penalty_charge" do
 
+  it "there is a penalty charge" do
+    expect(described_class::PENALTY_CHARGE).to eq 6
+  end
 
+  it "pentaly charge has been applied, returns true" do
+    expect(subject.penalty_charge).to eq true
+   end
 
-
-
+  it "penalty charge deducted from balance" do
+    expect{subject.penalty_charge}.to change{subject.balance}.by -(described_class::PENALTY_CHARGE)
+  end
+end
 end

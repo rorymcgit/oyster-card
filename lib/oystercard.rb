@@ -5,6 +5,7 @@ class Oystercard
   MAX_MONEY = 90
   MIN_MONEY = 1
   MINIMUM_FARE = 1
+  PENALTY_CHARGE = 6
 
   def initialize
     @current_journey = Journey.new
@@ -30,6 +31,11 @@ class Oystercard
 
   def on_journey?
     @current_journey.on_journey?
+  end
+
+  def penalty_charge
+    @balance -= PENALTY_CHARGE
+    true
   end
 
   private

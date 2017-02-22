@@ -31,7 +31,7 @@ let(:exit_station) {double}
 
   before do
      allow(card).to receive(:touch_in) {entry_station}
-     allow(card).to receive(:touch_out){exit_station}
+     allow(card).to receive(:touch_out) {exit_station}
      subject.store_entry(entry_station)
      subject.store_exit(exit_station)
     end
