@@ -19,7 +19,7 @@ class Oystercard
 
   def touch_in(station)
     fail "min. balance of £#{Oystercard::MIN_MONEY} not reached" if @balance <= MIN_MONEY
-    @journey = { :in => station}
+    @journey = { :in => station }
     @entry_station= station
   end
 
