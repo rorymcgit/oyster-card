@@ -1,9 +1,10 @@
 require 'oystercard'
 
-describe Oystercard do
-  let(:card) { described_class.new }
+describe Oystercard, :o do
+  subject(:card) { described_class.new }
   let(:entry_station) { double }
   let(:exit_station) { double }
+  let(:journey) { double }
   let(:topup_amount) { 20 }
 
   describe "#balance" do
@@ -43,32 +44,30 @@ describe Oystercard do
   describe "#touch_out" do
     before(:each) do
       card.topup(topup_amount)
+      stub_const("MINIMUM_FARE", 3)
     end
 
     it "deducts minimum fare on touch_out" do
       card.touch_in(entry_station)
-      expect{card.touch_out(exit_station)}.to change{card.balance}.by(-described_class::MINIMUM_FARE)
+      expect{card.touch_out(exit_station)}.to change{card.balance}.by(-MINIMUM_FARE)
     end
   end
 
   describe "#penalty_charge", :p do
-    it "checks penalty charge is set to 6" do
-      expect(described_class::PENALTY_CHARGE).to eq(6)
-    end
-
     context "charges penalty fare on following conditions:" do
       before(:each) do
         card.topup(topup_amount)
+        stub_const("PENALTY_CHARGE", 6)
       end
       it "touch out but no touch in" do
         # NOT TOUCHING IN
-        expect{card.touch_out(exit_station)}.to change{card.balance}.by(-described_class::PENALTY_CHARGE)
+        expect{card.touch_out(exit_station)}.to change{card.balance}.by(-PENALTY_CHARGE)
       end
 
       it "touch in without having previously touched out (touching in twice in a row)" do
         # TOUCHING IN TWICE WITHOUT A TOUCH OUT BETWEEN THEM
         card.touch_in(entry_station)
-        expect{card.touch_in(entry_station)}.to change{card.balance}.by(-described_class::PENALTY_CHARGE)
+        expect{card.touch_in(entry_station)}.to change{card.balance}.by(-PENALTY_CHARGE)
       end
     end
   end
