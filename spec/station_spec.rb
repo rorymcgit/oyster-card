@@ -1,7 +1,7 @@
 require 'station'
 
 describe Station, :stn do
-  let(:station) { described_class.new(name: "Euston", zone: 1) }
+  let(:station) { described_class.new("Euston", 1) }
 
   context "#station initialize" do
     it "stores the name of the station on initialize" do

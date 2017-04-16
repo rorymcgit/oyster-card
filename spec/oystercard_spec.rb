@@ -4,7 +4,7 @@ describe Oystercard do
   let(:card) { described_class.new }
   let(:entry_station) { double }
   let(:exit_station) { double }
-  let(:topup_amount) { 20 }
+  let(:top_up_amount) { 20 }
 
   describe "#balance" do
     it "begins with a default balance of 0" do
@@ -12,20 +12,20 @@ describe Oystercard do
     end
   end
 
-  describe "#topup" do
-    it "topup changes the balance" do
-      expect{card.topup(topup_amount)}.to change{card.balance}.by(topup_amount)
+  describe "#top_up" do
+    it "top_up changes the balance" do
+      expect{card.top_up(top_up_amount)}.to change{card.balance}.by(top_up_amount)
     end
 
-    it "will not topup when the balance would be over £#{described_class::MAX_MONEY}" do
-      message = "Topup would put value over the maximum: £#{described_class::MAX_MONEY}."
-      expect{card.topup(described_class::MAX_MONEY + 1)}.to raise_error(message)
+    it "will not top_up when the balance would be over £#{described_class::MAX_MONEY}" do
+      message = "Top up would put value over the maximum: £#{described_class::MAX_MONEY}."
+      expect{card.top_up(described_class::MAX_MONEY + 1)}.to raise_error(message)
     end
   end
 
   describe "#touch_in" do
     before(:each) do
-      card.topup(topup_amount)
+      card.top_up(top_up_amount)
     end
 
     it "responds to touch_in method" do
@@ -35,14 +35,14 @@ describe Oystercard do
 
   describe "#touch_in_errors" do
     it "raises an error when minimum amount not reached" do
-      message = "min. balance of £#{described_class::MIN_MONEY} not reached"
+      message = "Minimum balance of £#{described_class::MIN_MONEY} not reached"
       expect{card.touch_in(entry_station)}.to raise_error(message)
     end
   end
 
   describe "#touch_out" do
     before(:each) do
-      card.topup(topup_amount)
+      card.top_up(top_up_amount)
     end
 
     it "deducts minimum fare on touch_out" do
@@ -58,7 +58,7 @@ describe Oystercard do
 
     context "charges penalty fare on following conditions:" do
       before(:each) do
-        card.topup(topup_amount)
+        card.top_up(top_up_amount)
       end
       it "touch out but no touch in" do
         # NOT TOUCHING IN

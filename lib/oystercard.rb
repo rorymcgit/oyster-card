@@ -15,8 +15,8 @@ class Oystercard
     @balance = 0
   end
 
-  def topup(value)
-    check_if_topup_exceeds_maximum(value)
+  def top_up(value)
+    check_if_top_up_exceeds_maximum(value)
     @balance += value
   end
 
@@ -36,11 +36,11 @@ class Oystercard
 
   private
   def check_if_balance_meets_minimum
-    raise "min. balance of £#{MIN_MONEY} not reached" if balance < MIN_MONEY
+    raise "Minimum balance of £#{MIN_MONEY} not reached" if balance < MIN_MONEY
   end
 
-  def check_if_topup_exceeds_maximum(value)
-    raise "Topup would put value over the maximum: £#{MAX_MONEY}." if balance + value > MAX_MONEY
+  def check_if_top_up_exceeds_maximum(value)
+    raise "Top up would put value over the maximum: £#{MAX_MONEY}." if balance + value > MAX_MONEY
   end
 
   def touch_in_charge

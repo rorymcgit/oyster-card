@@ -15,7 +15,7 @@ Instructions for use:
  => true
 2.2.3 :003 > card = Oystercard.new
  => #<Oystercard:0x007fefa38cb000 @current_journey=#<Journey:0x007fefa38cafd8 @all_journeys=[], @single_journey={}>, @in=false, @balance=0>
-2.2.3 :004 > card.topup(20)
+2.2.3 :004 > card.top_up(20)
  => 20
 2.2.3 :005 > penge = Station.new("Penge", 4)
  => #<Station:0x007fefa38b9738 @name="Penge", @zone=4>
