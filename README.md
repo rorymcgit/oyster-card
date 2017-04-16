@@ -1,4 +1,4 @@
-# Makers Academy - Oyster card Challenge (Week 2)
+# Oyster Card
 
 This project was written in my second week of Makers Academy. I used RSpec to TDD an object oriented system in Ruby which imitates various features of the TFL oyster card such as topping up, touching in/out and storing journey data for fare calculations.
 
